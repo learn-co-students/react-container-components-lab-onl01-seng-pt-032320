@@ -22,7 +22,6 @@ class LatestMovieReviewsContainer extends Component {
             this.setState({
                 reviews: reviews.results 
             })
-            console.log(this.state.reviews)
         })
     }
 
