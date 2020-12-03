@@ -1,24 +1,27 @@
 import React from 'react'
 
-const Layout = ({
- display_title, mpaa_rating
+const Review = ({
+ display_title, mpaa_rating,headline
 }) =>{
    return (
-       <div className='review'>
+       <div key={headline} className="review">
            <h2>{display_title}</h2>
            <p>{mpaa_rating}</p>
        </div>
    ) 
 }
 
-const MovieReview = ({reviews}) =>{
+const MovieReviews = ({ reviews }) =>{
+   
+    return(
     <div className= 'review-list'>
-       {reviews.map(Layout)} 
+       {reviews.map(Review)} 
     </div>
+    )
 }
 
-MovieReview.defaultProps ={
+MovieReviews.defaultProps = {
     reviews: []
 }
 
-export default MovieReview
+export default MovieReviews

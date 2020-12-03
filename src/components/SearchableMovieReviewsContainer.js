@@ -1,53 +1,49 @@
 import React, { Component } from 'react';
 import 'isomorphic-fetch';
-import MovieReviews from './MovieReviews'
 
-const NYT_API_KEY = 'q8wamMSBA6FswbSOSAtYETsBAzWxM1do';
-const URL = 'https://api.nytimes.com/svc/movies/v2/reviews/all.json?'
-            + `api-key=${NYT_API_KEY}`;
+import MovieReviews from './MovieReviews';
 
-// Code SearchableMovieReviewsContainer Here
+const NYT_API_KEY = 'f98593a095b44546bf4073744b540da0';
+const BASE_URL =
+  'https://api.nytimes.com/svc/movies/v2/reviews/search.json?' +
+  `api-key=${NYT_API_KEY}&query=`;
+
 class SearchableMovieReviewsContainer extends Component {
-    constructor(){
-        super()
+  state = {
+    searchTerm: '',
+    reviews: []
+  };
 
-        this.state ={
-            searchTerm: "",
-            query: []
-        }
-    }
+  handleSearchInputChange = event =>
+    this.setState({ searchTerm: event.target.value });
 
-    componentDidMount(){
-        fetch(URL)
-        .then(res => res.json())
-        .then(movieData => this.setState({movies: movieData.movies}))
-    }
+  handleSubmit = event => {
+    event.preventDefault();
 
-    editSearchTerm = (e) =>{
-        this.setState(searchTerm: e.target.value)
-    }
+    fetch(BASE_URL.concat(this.state.searchTerm))
+      .then(res => res.json())
+      .then(res => this.setState({ reviews: res.results }));
+  };
 
-    dynamicSearch = () =>{
-        return this.state.query.filter(title => title.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
-    }
-
-    render(){
-        return(
-            <div className="searchable-movie-reviews">
-                <p>Search</p>
-                <input type='text' value ={this.state.searchTerm} onChange ={this.editSearchTerm} placeholder ="Search for a review" />
-                <br></br>
-                <MovieReviews reviews={this.dynamicSearch} />
-            </div>
-        )
-    }
-
-
-    
-
-
+  render() {
+    return (
+      <div className="searchable-movie-reviews">
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="search-input">Search Movie Reviews</label>
+          <input
+            id="search-input"
+            type="text"
+            style={{ width: 300 }}
+            onChange={this.handleSearchInputChange}
+          />
+          <button type="submit">Submit</button>
+        </form>
+        {typeof this.state.reviews === 'object' &&
+          this.state.reviews.length > 0 && <h2>Movie Review By Search:</h2>}
+        <MovieReviews reviews={this.state.reviews} />
+      </div>
+    );
+  }
 }
 
 export default SearchableMovieReviewsContainer;
-
-
