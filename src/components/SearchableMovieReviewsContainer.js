@@ -26,8 +26,7 @@ class SearchableMovieReviewsContainer extends React.Component {
         fetch(newURL.concat(this.state.searchTerm))
           .then(res => res.json())
           .then(response => 
-            // this.setState({ reviews: response.results })
-            console.log(response.results)
+            this.setState({ reviews: response.results })
           );
     }
 
