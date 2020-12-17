@@ -19,19 +19,19 @@ class LatestMovieReviewsContainer extends React.Component {
  
   componentDidMount() {
     fetch(URL)
-      .then(response => response.json())
-      .then(movieData => this.setState({ reviews: movieData.reviews }))
+      .then(res => res.json())
+      .then(response => this.setState({ reviews: response.results }));
   }
- 
+
   render() {
     return (
-    <div class="latest-movie-reviews">
+      <div className="latest-movie-reviews">
+        <h2>The Latest Reviews:</h2>
         <MovieReviews reviews={this.state.reviews} />
-    </div>
-    )
-   
+      </div>
+    );
   }
 }
- 
-export default LatestMovieReviewsContainer;
 
+
+export default LatestMovieReviewsContainer;

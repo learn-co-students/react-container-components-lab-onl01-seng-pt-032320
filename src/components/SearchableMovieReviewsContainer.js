@@ -20,27 +20,22 @@ class SearchableMovieReviewsContainer extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        this.setState((previousState) => {
-            const newReview = previousState.reviews.filter(r=> r.name === e.target.value)
-            return {
-                reviews: newReview
-            }
-        })
-        
+        fetch(URL)
+          .then(res => res.json())
+          .then(response => 
+            this.setState({ reviews: response.results.filter(r => r.value === this.searchTerm) }));
     }
-   
-    fetchMovie = () => {
-      fetch(URL)
-        .then(response => response.json())
-        .then(movieData => this.setState({ reviews: movieData.reviews }))
+
+    handleSearch = (e) => {
+      this.setState({searchTerm: e.target.value })
     }
    
     render() {
         return (
         <div class="searchable-movie-reviews">
-            <form onSubmit={this.fetchMovie}>
-                <input type="text"></input>
-                <input type="submit" value="" onClick={this.handleSubmit}>Submit</input>
+            <form onSubmit={this.handleSubmit}>
+                <input type="text" onChange={this.handleSearch}></input>
+                <button type="submit">Submit</button>
             </form>
 
         <MovieReviews reviews={this.state.reviews} />
