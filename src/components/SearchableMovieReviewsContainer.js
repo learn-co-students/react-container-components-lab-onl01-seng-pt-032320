@@ -4,7 +4,10 @@ import MovieReviews from './MovieReviews'
 
 const NYT_API_KEY = 'dGpQ5OmGP2SgfvZimlpCUoF4iOag9qzZ';
 const URL = 'https://api.nytimes.com/svc/movies/v2/reviews/search.json?'
-            + `api-key=${NYT_API_KEY}`;
+            + `api-key=${NYT_API_KEY}`
+
+const newURL = 'https://api.nytimes.com/svc/movies/v2/reviews/search.json?'
+            + `api-key=${NYT_API_KEY}` + '&query='
 
 // Code SearchableMovieReviewsContainer Here
 
@@ -20,10 +23,12 @@ class SearchableMovieReviewsContainer extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        fetch(URL)
+        fetch(newURL.concat(this.state.searchTerm))
           .then(res => res.json())
           .then(response => 
-            this.setState({ reviews: response.results.filter(r => r.value === this.searchTerm) }));
+            // this.setState({ reviews: response.results })
+            console.log(response.results)
+          );
     }
 
     handleSearch = (e) => {
